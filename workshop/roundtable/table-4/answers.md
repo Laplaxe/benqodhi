@@ -1,3 +1,5 @@
+
+
 # Table 4 — Benchmarking methods and the repository
 
 > **This file is a worked EXAMPLE.** It shows the level of detail expected from a
@@ -68,9 +70,18 @@ with a fixed date and an owner.
 - **Transversal next-step advice:** start with a minimal useful repository and grow
   it through clear review, credit and maintenance roles.
 
-## Transversal reflection
+## Summary of the discussion
+A good benchmark should be able to aggregate different points that come into the usage: structure of the problems, algorithms and hardware.
 
-Given the three pillars — infrastructure, community and governance — what advice,
-suggestions or lessons from experience would you give for the next steps after the
-workshop, so that BENQODHI can become a living benchmark repository and produce
-useful final outputs?
+For this reason, people should be able to use a checlist of things that should be included in a "good" benchmark.
+
+The first point should be the diversity of problems: since diffent hardware excells at different tasks (especially in the quantum case) the benchmark should have coverage in order not to give the false impression that there is a one-for-all hardware that works for everything (there is no free lunch). Some classes of problems could be QUBO problems, constraint satisfaction problems, continuus problems, natively quantum problems.
+
+The database should then include information (in the form of tables?) on
+
+- structure of the problem: complexity (e.g. NP hardness), solution space (smotheness), continuous/discrete, problem sizes, origin of the data (e.g. random vs real world)
+- information about the algorithm, both in the abstract sense and in the practical one
+-  - For the abstract side: complexity (theoretical) and performance
+-  - for the practical side (especially on the hardware side), one should report: throughput, accuracy/noise level (for quantum hardware), energy/efficiency, cost both static and dynamic (at the time + try to give updated prices: subject to regular updates, e.g. via llms?)
+
+The benchmark should not show publicly the solutions to all the instances present: a group of instances' solutions should be kept private in order to verify proposed algorithms (e.g. to avoid ML training on the whole set of solutions)
