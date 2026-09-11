@@ -15,16 +15,22 @@
 How should standard classical, AI-based, hybrid and quantum approaches be compared
 on the same problems?
 
-Example answer: a comparison is only honest if the **target is fixed in advance**:
-a common problem definition, the same instances and a stated solution-quality
-target, for example "reach within 1% of the best known value". Quantum, hybrid and
-AI results should always be compared against genuinely strong, well-tuned classical
-baselines, not weak or default implementations.
+Comparison: classical and ML. Problems related to HPC infrastructure. E.g. interconnector has an effect on the benchmarking.
+
+AI based algorithm: training time should be taken into account. recording separately training and inference.
+
+Origin of the data? If it is quantum you should work with the quantum computers 
 
 ### Q2 — What to measure
 
 Which measures matter most: solution quality, running time, efficiency, energy
 consumption, resources used, reproducibility?
+
+Things you want: time, cost, accuracy.
+
+Cost: related to architecture, but this is not enstablished a priori.
+
+Benchmark of the checklist.
 
 Example answer:
 
@@ -35,7 +41,7 @@ Example answer:
   stochastic;
 - **reproducibility information**, including solver version, parameters and seed.
 
-### Q4 — Online and credible
+### Q3 — Online and credible
 
 What is the simplest route to put benchmark material online, and who should
 maintain or review it?
