@@ -1,14 +1,9 @@
-
-
 # Table 4 — Benchmarking methods and the repository
 
-> **This file is a worked EXAMPLE.** It shows the level of detail expected from a
-> note taker. The content below is illustrative, not an agreed workshop position.
-> Replace it with the table's real conclusions.
-
 - **Date:** 11 September 2026
-- **Note takers:** A. Example, B. Example
-- **Rapporteur:** C. Example
+- **Participants:** Vito Palmisano, Mario Ceresa, Rene Chatwell
+- **Note takers:** Luca Del Bono, Federico Celauro
+- **Rapporteur:** _to be confirmed_
 
 ## Answers to the table's questions
 
@@ -17,71 +12,146 @@
 How should standard classical, AI-based, hybrid and quantum approaches be compared
 on the same problems?
 
-Comparison: classical and ML. Problems related to HPC infrastructure. E.g. interconnector has an effect on the benchmarking.
+A comparison is only meaningful if it aggregates the **three dimensions that
+jointly determine the result**: the structure of the problem, the algorithm and
+the hardware it runs on. Reporting one of them without the others produces numbers
+that cannot be interpreted, and certainly cannot be reproduced.
 
-AI based algorithm: training time should be taken into account. recording separately training and inference.
+- **The hardware and the infrastructure are part of the result.** This is not only
+  a matter of the processor: on HPC systems the interconnect alone can change the
+  outcome of a benchmark. The execution environment must therefore be reported at
+  the same level of detail as the algorithm.
+- **AI-based methods must separate training from inference.** Training time is a
+  real cost and must be counted, but it is amortized over many instances, so it
+  has to be recorded separately from inference time rather than folded into a
+  single figure.
+- **The origin of the data matters, and must be declared.** Randomly generated
+  instances and real-world instances are not interchangeable, and a problem whose
+  data is natively quantum should be run on quantum hardware rather than compared
+  through a classical re-encoding.
+- **There is no free lunch, so there is no single ranking.** Different hardware
+  excels at different tasks — especially in the quantum case — so approaches must
+  be compared across a *diverse set of problem classes*. A comparison restricted to
+  one class gives the false impression that one platform works for everything.
+  Classes to cover include QUBO problems, constraint satisfaction problems,
+  continuous problems and natively quantum problems.
 
-Origin of the data? If it is quantum you should work with the quantum computers 
+To keep comparisons honest, **the solutions to part of the instances must not be
+published**. A held-out set of instances with private solutions is what allows a
+proposed algorithm to be verified independently, and it prevents an ML method from
+simply being trained on the full set of published solutions.
 
 ### Q2 — What to measure
 
 Which measures matter most: solution quality, running time, efficiency, energy
 consumption, resources used, reproducibility?
 
-Things you want: time, cost, accuracy.
+The three quantities the table converged on are **time, cost and accuracy**. Cost
+is the difficult one: it depends on the architecture and cannot be established a
+priori, so it has to be reported rather than assumed, in both a static and a
+dynamic form, and the figures need to be refreshed regularly as prices change.
 
-Cost: related to architecture, but this is not enstablished a priori.
+Rather than a fixed metric, the table's proposal is a **checklist that a "good"
+benchmark entry must fill in** — effectively a benchmark of the benchmark. The
+checklist is organized in tables covering:
 
-Benchmark of the checklist.
+- **Structure of the problem** — theoretical complexity (for example NP-hardness),
+  the nature of the solution space (such as its smoothness), whether the problem is
+  continuous or discrete, the range of problem sizes, and the origin of the data
+  (random versus real-world).
+- **The algorithm in the abstract sense** — theoretical complexity and expected
+  performance.
+- **The algorithm in the practical sense**, which is where the hardware enters —
+  throughput, accuracy and, for quantum hardware, noise level, energy and
+  efficiency, and cost both static and dynamic, with prices kept up to date
+  (possibly with automated help, for example via LLMs).
+- **Reproducibility information** — solver and library versions, parameters, seeds,
+  and the execution environment including the interconnect where relevant.
 
-Example answer:
-
-- **solution quality** achieved, including objective value and gap to best known;
-- **time to reach the target**, using wall-clock time and reporting the hardware;
-- **resources used**, including cores, GPUs, QPU shots and, where available, energy;
-- **number of runs and success rate**, since heuristic and quantum methods are often
-  stochastic;
-- **reproducibility information**, including solver version, parameters and seed.
+For AI-based entries the checklist must carry training and inference figures in
+separate fields, and for stochastic methods the number of runs and the success
+rate, since a single best run is not a measurement.
 
 ### Q3 — Online and credible
 
 What is the simplest route to put benchmark material online, and who should
 maintain or review it?
 
-Example answer: start with a **public repository** with, per problem, a clear
-description, instance files or data links, at least one baseline, the metrics, a
-license and a named owner. The smallest first release could be one problem class
-with one curated instance set, one classical baseline and one checker, published
-with a fixed date and an owner.
+The simplest route is a **public repository organized around the checklist**: per
+problem, a clear description, the instance files or links to the data, the
+structure-of-the-problem table, at least one baseline, the metrics, a license and a
+named owner. The checklist is what makes the entries comparable, and what makes it
+obvious when an entry is incomplete.
+
+Two design choices matter from the first release:
+
+- **A private held-out set.** The repository publishes the instances but withholds
+  the solutions for a subset of them, so that submitted algorithms can be verified
+  and cannot be trained on the answers.
+- **Maintained cost figures.** Cost and price information ages quickly and must be
+  owned by someone and revised on a regular cycle, otherwise the entries silently
+  become misleading.
+
+The smallest credible first release is one problem class with one curated instance
+set, one classical baseline, one checker and a held-out subset, published with a
+fixed date and a named owner.
 
 ## Conclusions for the recap
 
-- **Strongest conclusions:** a fair comparison needs fixed targets, honest reporting
-  and strong classical baselines; "online" should start small and versioned, not
-  comprehensive.
-- **Main infrastructure need:** a public, versioned repository with per-problem
-  baselines and automatic checkers.
-- **Why it matters:** without agreed reporting and strong baselines, claims of
-  progress cannot be trusted or reproduced.
-- **Most important missing piece:** owners for the first release and an agreed
-  minimum reporting format.
-- **Next action:** commit to one problem class as a first release, with a named owner
-  and a target date.
-- **Transversal next-step advice:** start with a minimal useful repository and grow
-  it through clear review, credit and maintenance roles.
+- **Strongest conclusions:** a benchmark result only means something if problem,
+  algorithm and hardware are reported together; there is no free lunch, so the
+  repository must cover diverse problem classes rather than produce a single
+  ranking; and part of the solutions must stay private.
+- **Main infrastructure need:** a public repository built around a shared checklist,
+  with per-problem tables, baselines, and a held-out set of instances whose
+  solutions are not published.
+- **Why it matters:** without a common checklist, results across classical, AI,
+  hybrid and quantum approaches are not comparable, and a benchmark covering only
+  one problem class would suggest that one platform is best at everything.
+- **Most important missing piece:** an agreed checklist, and an owner for the cost
+  and price information, which needs regular updating.
+- **Next action:** draft the checklist as concrete tables and apply it to one
+  problem class as a first release, with a named owner and a target date.
+- **Transversal next-step advice:** start from the checklist and one problem class,
+  and grow the repository through clear ownership, review and maintenance roles.
 
 ## Summary of the discussion
-A good benchmark should be able to aggregate different points that come into the usage: structure of the problems, algorithms and hardware.
 
-For this reason, people should be able to use a checlist of things that should be included in a "good" benchmark.
+A good benchmark should be able to aggregate the different elements that come into
+play: the structure of the problem, the algorithm and the hardware. For this
+reason, people should be able to use a **checklist** of the things that must be
+included in a "good" benchmark.
 
-The first point should be the diversity of problems: since diffent hardware excells at different tasks (especially in the quantum case) the benchmark should have coverage in order not to give the false impression that there is a one-for-all hardware that works for everything (there is no free lunch). Some classes of problems could be QUBO problems, constraint satisfaction problems, continuus problems, natively quantum problems.
+The first point is the **diversity of problems**. Since different hardware excels
+at different tasks — especially in the quantum case — the benchmark needs enough
+coverage not to give the false impression that there is a one-for-all hardware that
+works for everything: there is no free lunch. Classes of problems to cover include
+QUBO problems, constraint satisfaction problems, continuous problems and natively
+quantum problems.
 
-The database should then include information (in the form of tables?) on
+The database should then include information, in the form of tables, on:
 
-- structure of the problem: complexity (e.g. NP hardness), solution space (smotheness), continuous/discrete, problem sizes, origin of the data (e.g. random vs real world)
-- information about the algorithm, both in the abstract sense and in the practical one
--  - For the abstract side: complexity (theoretical) and performance
--  - for the practical side (especially on the hardware side), one should report: throughput, accuracy/noise level (for quantum hardware), energy/efficiency, cost both static and dynamic (at the time + try to give updated prices: subject to regular updates, e.g. via llms?)
+- **Structure of the problem:** complexity (for example NP-hardness), the solution
+  space (for example its smoothness), continuous versus discrete, problem sizes,
+  and the origin of the data (random versus real-world).
+- **Information about the algorithm**, both in the abstract and in the practical
+  sense:
+  - *abstract side:* theoretical complexity and performance;
+  - *practical side*, especially on the hardware: throughput, accuracy and noise
+    level for quantum hardware, energy and efficiency, and cost both static and
+    dynamic — reported at the time and kept updated, since prices are subject to
+    regular revision, possibly with automated help such as LLMs.
 
-The benchmark should not show publicly the solutions to all the instances present: a group of instances' solutions should be kept private in order to verify proposed algorithms (e.g. to avoid ML training on the whole set of solutions)
+On comparing approaches specifically: HPC infrastructure matters, and even the
+interconnect has an effect on the benchmark. For AI-based algorithms, training time
+must be taken into account, recording training and inference separately. The origin
+of the data also matters — if it is quantum, the work should be done on quantum
+computers.
+
+The quantities one wants out of a benchmark are **time, cost and accuracy**. Cost
+is related to the architecture, but it is not established a priori.
+
+Finally, the benchmark should **not publish the solutions to all the instances**: a
+group of instances should have its solutions kept private, so that proposed
+algorithms can be verified and so that ML methods cannot be trained on the whole
+set of solutions.
