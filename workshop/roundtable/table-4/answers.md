@@ -2,7 +2,7 @@
 
 - **Date:** 11 September 2026
 - **Participants:** Vito Palmisano, Mario Ceresa, Rene Chatwell
-- **Note takers:** Luca Del Bono, Federico Celauro
+- **Note takers:** Luca Maria Del Bono, Federico Celauro
 - **Rapporteur:** _to be confirmed_
 
 ## Answers to the table's questions
